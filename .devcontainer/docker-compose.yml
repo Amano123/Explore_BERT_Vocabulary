@@ -4,7 +4,16 @@ services:
   ubuntu:
     build:
       context: ./environment/ubuntu
-      dockerfile: Dockerfile
+      # dockerfile: Dockerfile
+      dockerfile: Dockerfile.gpu
+      args:
+        # USER setting
+        - USERNAME=${USER_NAME}
+        - USER_UID=${USER_UID}
+        - USER_GID=${USER_GID}
+        # network setting
+        - http_proxy=${HTTP_PROXY}
+        - https_proxy=${HTTPS_PROXY}
     volumes:
       # Forwards the local Docker socket to the container.
       - /var/run/docker.sock:/var/run/docker-host.sock
@@ -18,14 +27,22 @@ services:
       # poetry setting environments
       - POETRY_VIRTUALENVS_CREATE=false
       - POETRY_VIRTUALENVS_IN_PROJECT=true
+      # - NVIDIA_VISIBLE_DEVICES=all
+      # - NVIDIA_DRIVER_CAPABILITIES=alls
 
-    # Uncomment the next four lines if you will use a ptrace-based debuggers like C++, Go, and Rust.
-    # cap_add:
-    #  - SYS_PTRACE
-    # security_opt:
-    #   - seccomp:unconfined
+      # Uncomment the next four lines if you will use a ptrace-based debuggers like C++, Go, and Rust.
+      # cap_add:
+      #  - SYS_PTRACE
+      # security_opt:
+      #   - seccomp:unconfined
 
-    # Uncomment the next line to use a non-root user for all processes.
+      # deploy:
+      #   resources:
+      #     reservations:
+      #       devices:
+      #         - capabilities: [ gpu ]
+
+      # Uncomment the next line to use a non-root user for all processes.
     user: vscode
     working_dir: /workspace
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
