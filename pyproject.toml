@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "workspace"
+version = "0.1.0"
+description = ""
+authors = ["yoo <mi21a001@oecu.jp>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+tqdm = "^4.64.1"
+ginza = "^5.1.2"
+tokenizers = "^0.13.1"
+transformers = "^4.23.1"
+ipykernel = "^6.16.0"
+torch = "^1.12.1"
+pytorch-lightning = "^1.7.7"
+sentencepiece = "^0.1.97"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.16.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
