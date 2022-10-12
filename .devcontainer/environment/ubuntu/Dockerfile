@@ -16,30 +16,35 @@ ENV DOCKER_BUILDKIT=1
 # Install needed packages and setup non-root user. Use a separate RUN statement to add your
 # own dependencies. A user of "automatic" attempts to reuse an user ID if one already exists.
 ARG USERNAME=vscode
-ARG USER_UID=501
-ARG USER_GID=$USER_UID
+ARG USER_UID=1000
+ARG USER_GID=1000
+# Proxy setting
+ENV http_proxy=""
+ENV https_proxy=""
 
-COPY library-scripts/*.sh /tmp/library-scripts/
-RUN set -x \
-    && apt-get update \
-    # User setup
-    ## Github : https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/common-debian.sh
-    ## raw data : https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh
-    && /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
-    # Use Docker script from script library to set things up
-    ## Github : https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docker-debian.sh
-    ## raw data : https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/docker-debian.sh
-    && /bin/bash /tmp/library-scripts/docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "/var/run/docker-host.sock" "/var/run/docker.sock" "${USERNAME}" \
-    # Python setup
-    ## Github : https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/python-debian.sh
-    ## raw data : https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/python-debian.sh
-    && bash -c "$(wget -qO- 'https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/python-debian.sh') "3.10"" \
-    # Rust setup
-    ## Github : https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/rust-debian.sh
-    ## raw data : https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/rust-debian.sh
-    && bash -c "$(wget -qO- 'https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/rust-debian.sh')" \
-    # Clean up
-    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts/
+RUN apt-get update 
+# User setup
+## Github : https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/common-debian.sh
+## raw data : https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh
+COPY library-scripts/common-debian.sh /tmp/library-scripts/
+RUN /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" 
+# Use Docker script from script library to set things up
+## Github : https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docker-debian.sh
+## raw data : https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/docker-debian.sh
+COPY library-scripts/docker-debian.sh /tmp/library-scripts/
+RUN /bin/bash /tmp/library-scripts/docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "/var/run/docker-host.sock" "/var/run/docker.sock" "${USERNAME}" 
+# Python setup
+## Github : https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/python-debian.sh
+## raw data : https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/python-debian.sh
+# RUN bash -c "$(wget -qO- 'https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/python-debian.sh')" 
+COPY library-scripts/python-debian.sh /tmp/library-scripts/
+RUN /bin/bash /tmp/library-scripts/python-debian.sh "3.10" 
+# Rust setup
+## Github : https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/rust-debian.sh
+## raw data : https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/rust-debian.sh
+RUN bash -c "$(wget -qO- 'https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/rust-debian.sh')" 
+# Clean up
+RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts/
 
 USER vscode
 RUN curl -sSL https://install.python-poetry.org | /usr/local/python/bin/python3.10 -
