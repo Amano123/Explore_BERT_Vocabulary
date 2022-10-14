@@ -1,5 +1,5 @@
 # Note: You can use any Debian/Ubuntu based image you want. 
-FROM mcr.microsoft.com/vscode/devcontainers/base:0-bullseye
+# FROM mcr.microsoft.com/vscode/devcontainers/base:0-bullseye
 FROM nvidia/cuda:11.8.0-base-ubuntu20.04
 
 # [Option] Install zsh
