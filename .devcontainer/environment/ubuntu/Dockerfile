@@ -42,7 +42,7 @@ COPY library-scripts/python-debian.sh /tmp/library-scripts/
 ENV PIPX_HOME=/usr/local/py-utils \
     PIPX_BIN_DIR=/usr/local/py-utils/bin
 ENV PATH=${PATH}:${PIPX_BIN_DIR}
-RUN /bin/bash /tmp/library-scripts/python-debian.sh "3.10" "/usr/local/python" "${PIPX_HOME}" "${USERNAME}"
+RUN /bin/bash /tmp/library-scripts/python-debian.sh "3.9.5" "/usr/local/python" "${PIPX_HOME}" "${USERNAME}"
 # Rust setup
 ## Github : https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/rust-debian.sh
 ## raw data : https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/rust-debian.sh
@@ -51,7 +51,7 @@ RUN bash -c "$(wget -qO- 'https://raw.githubusercontent.com/microsoft/vscode-dev
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts/
 
 USER vscode
-RUN curl -sSL https://install.python-poetry.org | /usr/local/python/bin/python3.10 -
+RUN curl -sSL https://install.python-poetry.org | /usr/local/python/bin/python3.9 -
 
 # RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python3 - \
 #     && cd /usr/local/bin \
