@@ -8,16 +8,18 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "3.9.5"
 numpy = "1.22.4"
-tensorflow = {version = "^2.9.1", markers = "platform_machine == 'x86_64'"}
-tensorflow-aarch64 = {version = "^2.9.1", markers = "platform_machine == 'aarch64'"}
+tensorflow = {version = "2.9.1", markers = "platform_machine == 'x86_64'"}
+tensorflow-aarch64 = {version = "2.9.1", markers = "platform_machine == 'aarch64'"}
 protobuf = "3.19.4"
 llvmlite = "^0.39.1"
-tensorflow-datasets = "^4.7.0"
-apache-beam = {extras = ["gcp"], version = "^2.41.0"}
+tensorflow-datasets = "4.3.0"
 bunkai = "^1.5.5"
 progressbar = "^2.5"
-tfds-nightly = "^4.7.0.dev202210140046"
 pandas = "^1.5.0"
+apache-beam = {extras = ["gcp"], version = "^2.41.0"}
+datasets = "^2.6.1"
+jinja2 = "^3.1.2"
+ja-sentence-segmenter = "^0.0.2"
 
 
 [build-system]
