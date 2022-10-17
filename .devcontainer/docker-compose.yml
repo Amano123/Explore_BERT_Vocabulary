@@ -4,8 +4,10 @@ services:
   ubuntu:
     build:
       context: ./environment/ubuntu
-      # dockerfile: Dockerfile
-      dockerfile: Dockerfile.gpu
+      # CUP
+      dockerfile: Dockerfile
+      # GPU
+      # dockerfile: Dockerfile.gpu
       args:
         # USER setting
         - USERNAME=${USER_NAME}
