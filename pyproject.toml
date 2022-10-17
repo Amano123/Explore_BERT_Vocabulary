@@ -6,19 +6,21 @@ authors = ["yoo <mi21a001@oecu.jp>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-tqdm = "^4.64.1"
-ginza = "^5.1.2"
-tokenizers = "^0.13.1"
-transformers = "^4.23.1"
-ipykernel = "^6.16.0"
-torch = "^1.12.1"
-pytorch-lightning = "^1.7.7"
-sentencepiece = "^0.1.97"
+python = "3.9.5"
+numpy = "1.22.4"
+tensorflow = {version = "2.9.1", markers = "platform_machine == 'x86_64'"}
+tensorflow-aarch64 = {version = "2.9.1", markers = "platform_machine == 'aarch64'"}
+protobuf = "3.19.4"
+llvmlite = "^0.39.1"
+tensorflow-datasets = "4.3.0"
+bunkai = "^1.5.5"
+progressbar = "^2.5"
+pandas = "^1.5.0"
+apache-beam = {extras = ["gcp"], version = "^2.41.0"}
+datasets = "^2.6.1"
+jinja2 = "^3.1.2"
+ja-sentence-segmenter = "^0.0.2"
 
-
-[tool.poetry.group.dev.dependencies]
-ipykernel = "^6.16.0"
 
 [build-system]
 requires = ["poetry-core"]
